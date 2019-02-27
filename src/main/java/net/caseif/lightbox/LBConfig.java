@@ -130,7 +130,7 @@ public class LBConfig {
         Path filePath = Sponge.getConfigManager().getPluginConfig(this.plugin).getDirectory();
 
         for (String el : this.path) {
-            filePath.resolve(el);
+            filePath = filePath.resolve(el);
         }
 
         String pathStr = plugin.getId() + ":" + String.join("/", this.path);

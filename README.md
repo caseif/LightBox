@@ -47,6 +47,9 @@ dependencies {
 </dependencies>
 ```
 
+Also note that LightBox will either need to be shadowed into your built JAR, or
+otherwise placed in the `mods` folder so that it is available at runtime.
+
 Optionally, create a default configuration on your classpath. If your plugin has
 the ID `foo`, then configuration `bar/quux.conf` should be placed at
 `foo/bar/quux.conf`
