@@ -73,7 +73,7 @@ String guava = config.getNode("guava").getString();
 int cheese = config.getNode("chocolate", "cheese").getInt();
 ```
 
-You can also retrive the underlying `configurate` node if you perfer to work
+You can also retrive the underlying `configurate` node if you prefer to work
 with it directly:
 
 ```java
