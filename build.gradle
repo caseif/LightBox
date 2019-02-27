@@ -17,10 +17,19 @@ targetCompatibility = '1.8'
 group = 'net.caseif.lightbox'
 version = '1.0.0'
 
-// Extended project information
-ext.projectName = 'lightbox'
-ext.inceptionYear = '2019'
-ext.packaging = 'jar'
+ext {
+    projectName = 'lightbox'
+    inceptionYear = '2019'
+    packaging = 'jar'
+    description = 'Simple configuration loader for Sponge plugins.'
+
+    url = 'https://github.com/caseif/LightBox'
+    scmUrl = 'github.com/caseif/LightBox.git'
+}
+
+configurations {
+    deployerJars
+}
 
 repositories {
     mavenCentral()
@@ -32,6 +41,8 @@ repositories {
 
 dependencies {
     compile 'org.spongepowered:spongeapi:7.1.0-SNAPSHOT'
+
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:2.9'
 }
 
 license {
@@ -62,4 +73,45 @@ artifacts {
 
 wrapper {
     gradleVersion = '5.2.1'
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        //setUniqueVersion(true)
+        configuration = configurations.deployerJars
+        if (project.hasProperty('mavenRepo')) {
+            repository(url: project.property('mavenRepo')) {
+                if (project.hasProperty('mavenPrivKey')) {
+                    authentication(userName: project.property('mavenUser'), privateKey: project.property('mavenPrivKey'))
+                } else {
+                    authentication(userName: project.property('mavenUser'), password: project.property('mavenPass'))
+                }
+            }
+        }
+
+        pom {
+            groupId = project.group
+            version = project.version
+            artifactId = project.ext.projectName
+            project {
+                packaging 'jar'
+                description project.ext.description
+                url project.ext.url
+
+                scm {
+                    url 'https://' + project.ext.scmUrl
+                    connection 'scm:git:git://' + project.ext.scmUrl
+                    developerConnection 'scm:git:git@' + project.ext.scmUrl
+                }
+
+                licenses {
+                    license {
+                        name 'MIT Clause'
+                        url 'https://opensource.org/licenses/MIT'
+                        distribution 'repo'
+                    }
+                }
+            }
+        }
+    }
 }
