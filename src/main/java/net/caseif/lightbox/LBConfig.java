@@ -118,6 +118,10 @@ public class LBConfig {
         LOGGER.debug("Saved configuration " + pathStr + " to disk");
     }
 
+    public ConfigurationNode getRootNode() {
+        return config;
+    }
+
     public ConfigurationNode getNode(Object... path) {
         return config.getNode(path);
     }
